@@ -1,20 +1,27 @@
 <?php
 
-define('DB_HOST', 'localhost');
-define('DB_USER', 'username');
-define('DB_PASSWORD', 'password');
-define('DB_NAME', 'paste');
+class Database {
+    private $link;
 
-function get_paste($name) {
-    $db = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
+    public function __construct() {
+        define('DB_HOST', 'localhost');
+        define('DB_USER', 'username');
+        define('DB_PASSWORD', 'password');
+        define('DB_NAME', 'paste');
 
+        $this->link = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
+    }
 
-    $query = $db->prepare('SELECT content FROM pastes WHERE name = :name');
-    $query->execute(array(':name' => $name));
-    $row = $query->fetch(PDO::FETCH_ASSOC);
-//     error_log('DB QUERY');
+    public function query($query, $vars = array()) {
+        $query = $this->link->prepare($query);
+        $query->execute($vars);
 
-    $db = null;
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-    return $row['content'];
+    public function __destruct() {
+        $this->link = null;
+    }
 }
+
+?>

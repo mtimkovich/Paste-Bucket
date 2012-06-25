@@ -22,7 +22,12 @@ class Index extends Controller {
 
 class PasteHandler extends Controller {
     public function GET($params) {
-        $content = get_paste($params[0]);
+        $db = new Database();
+
+        $rows = $db->query('SELECT content FROM pastes WHERE name = :name',
+            array(':name' => $params[0]));
+
+        $content = $rows[0]['content'];
 
         if ($content) {
             echo $content;
