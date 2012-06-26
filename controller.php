@@ -10,7 +10,9 @@ class Controller {
     }
 
     public function redirect($loc) {
-        header("Location: $loc");
+        $BASE_PATH = dirname($_SERVER['SCRIPT_NAME']);
+
+        header("Location: $BASE_PATH$loc");
     }
 
     public function error($number) {

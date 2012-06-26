@@ -1,7 +1,7 @@
 <?php
 
 class Database {
-    private $link;
+    public $link;
 
     public function __construct() {
         define('DB_HOST', 'localhost');

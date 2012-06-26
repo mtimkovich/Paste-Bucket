@@ -3,10 +3,11 @@
 class FW {
     public function route ($urls) {
         $method = $_SERVER['REQUEST_METHOD'];
-        $path = $_SERVER['REQUEST_URI'];
 
-        $base_path = dirname($_SERVER['SCRIPT_NAME']);
-        $path = str_replace($base_path, '', $path);
+        $PATH = $_SERVER['REQUEST_URI'];
+
+        $BASE_PATH = dirname($_SERVER['SCRIPT_NAME']);
+        $PATH = str_replace($BASE_PATH, '', $PATH);
 
         $found = false;
 
@@ -14,7 +15,7 @@ class FW {
             $regex = str_replace('/', '\/', $regex);
             $regex = '^' . $regex . '\/?$';
 
-            if (preg_match("/$regex/i", $path, $matches)) {
+            if (preg_match("/$regex/i", $PATH, $matches)) {
                 array_shift($matches);
 
                 $found = true;
@@ -35,7 +36,7 @@ class FW {
         }
 
         if (!$found) { 
-            throw new Exception("URL, $path, not found.");
+            throw new Exception("URL, $PATH, not found.");
         }
     }
 }

@@ -11,12 +11,18 @@ class Index extends Controller {
     public function POST() {
         $content = $_POST['content'];
 
-        if (!empty($content)) {
+        if (!empty($content) AND !ctype_space($content)) {
             $db = new Database();
 
             $db->query('INSERT INTO pastes (name, content) VALUES (NULL, :content)',
                 array(':content' => $content));
             $db->query('UPDATE pastes SET name = SUBSTR(MD5(id), 1, 6) WHERE id = LAST_INSERT_ID()');
+
+            $rows = $db->query('SELECT name FROM pastes ORDER BY id DESC LIMIT 1');
+
+            $name = $rows[0]['name'];
+
+            $this->redirect("/paste/$name");
         } else {
             $data['error'] = 'Paste cannot be blank';
             $this->render('main.php', $data);
@@ -45,6 +51,7 @@ class PasteHandler extends Controller {
 
 $urls = array(
     '/' => 'Index',
+    '/paste' => 'Index',
     '/paste/(.*)' => 'PasteHandler',
 );
 
