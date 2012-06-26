@@ -11,17 +11,22 @@ class Index extends Controller {
     public function POST() {
         $content = $_POST['content'];
 
+        # Check to make sure paste isn't empty or consist of whitespace
         if (!empty($content) AND !ctype_space($content)) {
             $db = new Database();
 
+            # Insert content
             $db->query('INSERT INTO pastes (name, content) VALUES (NULL, :content)',
                 array(':content' => $content));
+
+            # Set the name value to be the MD5 hash of the id field
             $db->query('UPDATE pastes SET name = SUBSTR(MD5(id), 1, 6) WHERE id = LAST_INSERT_ID()');
 
-            $rows = $db->query('SELECT name FROM pastes ORDER BY id DESC LIMIT 1');
+            $rows = $db->query('SELECT name FROM pastes WHERE id = LAST_INSERT_ID()');
 
             $name = $rows[0]['name'];
 
+            # Redirect to the paste
             $this->redirect("/paste/$name");
         } else {
             $data['error'] = 'Paste cannot be blank';
