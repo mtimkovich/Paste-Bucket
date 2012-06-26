@@ -9,7 +9,7 @@
 <h1>Paste Bucket</h1>
 
 <form method='post'>
-<textarea name='paste'></textarea>
+<textarea name='content'></textarea>
 <br>
 <div class='error'><?= $error ?></div>
 <input type='submit'>
