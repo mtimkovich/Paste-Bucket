@@ -4,18 +4,13 @@ class FW {
     public function route ($urls) {
         $method = $_SERVER['REQUEST_METHOD'];
 
-        $PATH = $_SERVER['REQUEST_URI'];
-
-        $BASE_PATH = dirname($_SERVER['SCRIPT_NAME']);
-        $PATH = str_replace($BASE_PATH, '', $PATH);
-
         $found = false;
 
         foreach ($urls as $regex => $class) {
             $regex = str_replace('/', '\/', $regex);
             $regex = '^' . $regex . '\/?$';
 
-            if (preg_match("/$regex/i", $PATH, $matches)) {
+            if (preg_match("/$regex/i", $GLOBALS['PATH'], $matches)) {
                 array_shift($matches);
 
                 $found = true;

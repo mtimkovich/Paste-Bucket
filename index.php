@@ -1,4 +1,5 @@
 <?php
+require 'constants.php';
 require 'fw.php';
 require 'controller.php';
 require 'model.php';

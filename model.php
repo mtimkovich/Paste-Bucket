@@ -4,11 +4,6 @@ class Database {
     public $link;
 
     public function __construct() {
-        define('DB_HOST', 'localhost');
-        define('DB_USER', 'username');
-        define('DB_PASSWORD', 'password');
-        define('DB_NAME', 'paste');
-
         $this->link = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
 
         return true;
