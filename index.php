@@ -1,8 +1,5 @@
 <?php
-require 'constants.php';
-require 'fw.php';
-require 'controller.php';
-require 'model.php';
+require './lib/fw.php';
 
 class Index extends Controller {
     public function GET() {
