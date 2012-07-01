@@ -1,25 +1,27 @@
 <?php
 
 class Controller {
-    public function render($file, $vars = array()) {
-        extract($vars);
+  public function render($file, $vars = array()) {
+    extract($vars);
 
-        include "./views/$file";
+    include "./views/$file";
 
-        exit();
+    exit();
+  }
+
+  public function redirect($loc) {
+    global $BASE_PATH;
+
+    header("Location: $BASE_PATH$loc");
+  }
+
+  public function error($number) {
+    switch ($number) {
+    case 404:
+      header('HTTP/1.1 404 Not Found');
+      break;
     }
-
-    public function redirect($loc) {
-        header("Location: ${GLOBALS['BASE_PATH']}$loc");
-    }
-
-    public function error($number) {
-        switch ($number) {
-        case 404:
-            header('HTTP/1.1 404 Not Found');
-            break;
-        }
-    }
+  }
 }
 
 ?>
