@@ -1,5 +1,19 @@
 <?php
-require './lib/fw.php';
+require 'lib/fw.php';
+
+function get_paste($name) {
+  $db = new Database();
+
+  if (apc_exists($name)) {
+    $rows = apc_fetch($name);
+  } else {
+    $rows = $db->query('SELECT content FROM pastes WHERE name = :name',
+      array(':name' => $name));
+    error_log('DB QUERY');
+    apc_store($name, $rows);
+  }
+  return $rows;
+}
 
 class Index extends Controller {
   public function GET() {
@@ -35,10 +49,9 @@ class Index extends Controller {
 
 class PasteHandler extends Controller {
   public function GET($params) {
-    $db = new Database();
+    $name = $params[0];
 
-    $rows = $db->query('SELECT content FROM pastes WHERE name = :name',
-      array(':name' => $params[0]));
+    $rows = get_paste($name);
 
     $content = $rows[0]['content'];
 

@@ -1,7 +1,7 @@
 <?php
-require './lib/constants.php';
-require './lib/controller.php';
-require './lib/model.php';
+require 'lib/constants.php';
+require 'lib/controller.php';
+require 'lib/model.php';
 
 class FW {
   public function route ($urls) {
