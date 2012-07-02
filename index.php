@@ -48,9 +48,7 @@ class Index extends Controller {
 }
 
 class PasteHandler extends Controller {
-  public function GET($params) {
-    $name = $params[0];
-
+  public function GET($name) {
     $rows = get_paste($name);
 
     $content = $rows[0]['content'];

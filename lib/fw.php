@@ -22,7 +22,8 @@ class FW {
           $obj = new $class;
 
           if (method_exists($obj, $method)) {
-            $obj->$method($matches);
+            // call $method using variable parameters
+            call_user_func_array(array($obj, $method), $matches);
           } else {
             throw new BadMethodCallException("Method, $method, not supported");
           }
@@ -34,7 +35,7 @@ class FW {
     }
 
     if (!$found) { 
-      throw new Exception("URL, $PATH, not found.");
+      throw new Exception("URL, ${GLOBALS['PATH']}, not found.");
     }
   }
 }
