@@ -5,14 +5,14 @@ function get_paste($name) {
   $db = new Database();
 
   if (apc_exists($name)) {
-    $rows = apc_fetch($name);
+    $row = apc_fetch($name);
   } else {
-    $rows = $db->query('SELECT content FROM pastes WHERE name = :name',
+    $row = $db->query('SELECT content FROM pastes WHERE name = :name LIMIT 1',
       array(':name' => $name));
     error_log('DB QUERY');
-    apc_store($name, $rows);
+    apc_store($name, $row);
   }
-  return $rows;
+  return $row;
 }
 
 class Index extends Controller {
@@ -65,7 +65,6 @@ class PasteHandler extends Controller {
 
 $urls = array(
   '/' => 'Index',
-  '/paste' => 'Index',
   '/paste/(.*)' => 'PasteHandler',
 );
 
